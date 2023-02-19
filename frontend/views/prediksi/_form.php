@@ -1,7 +1,10 @@
 <?php
 
+use common\models\Algoritma;
+use common\models\Dataset;
+use kartik\select2\Select2;
 use yii\bootstrap5\ActiveForm;
-use yii\bootstrap5\Html;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Prediksi */
@@ -55,7 +58,13 @@ use yii\bootstrap5\Html;
                             <div class="row">
                                 <label class="col-md-3 col-form-label">Algorithm</label>
                                 <div class="col-md-9">
-                                    <?= $form->field($model, 'id_algoritma')->textInput()->label(false) ?>
+                                    <?= $form->field($model, 'id_algoritma')->widget(Select2::classname(), [
+                                        'data' => ArrayHelper::map(Algoritma::find()->all(), 'id', 'nama'),
+                                        'options' => ['placeholder' => 'Select Algorithm'],
+                                        'pluginOptions' => [
+                                            'allowClear' => false
+                                        ],
+                                    ])->label(false) ?>
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -63,7 +72,7 @@ use yii\bootstrap5\Html;
 
                     <ul class="list-inline wizard mb-0">
                         <li class="next list-inline-item float-end">
-                            <a href="javascript:void(0);" class="btn btn-info">Add More Info <i
+                            <a href="#datatest" class="btn btn-info" data-toggle="tab">Data Test <i
                                         class="mdi mdi-arrow-right ms-1"></i></a>
                         </li>
                     </ul>
@@ -75,7 +84,15 @@ use yii\bootstrap5\Html;
                             <div class="row">
                                 <label class="col-md-3 col-form-label">Dataset</label>
                                 <div class="col-md-9">
-                                    <?= $form->field($model, 'dataset_name')->textInput(['maxlength' => true])->label(false) ?>
+                                    <?= $form->field($model, 'dataset_name')->widget(Select2::classname(), [
+                                        'data' => ArrayHelper::map(Dataset::find()->where(['id_user' => Yii::$app->user->id])->all(), 'file', function ($model) {
+                                            return $model->nama . ' (' . $model->file . ')';
+                                        }),
+                                        'options' => ['placeholder' => 'Select Dataset'],
+                                        'pluginOptions' => [
+                                            'allowClear' => false
+                                        ],
+                                    ])->label(false) ?>
                                 </div>
                             </div>
                         </div> <!-- end col -->
@@ -88,7 +105,7 @@ use yii\bootstrap5\Html;
                             </button>
                         </li>
                         <li class="next list-inline-item float-end">
-                            <button type="button" class="btn btn-info">Add More Info <i
+                            <button type="button" class="btn btn-info">Summary <i
                                         class="mdi mdi-arrow-right ms-1"></i></button>
                         </li>
                     </ul>
@@ -123,8 +140,9 @@ use yii\bootstrap5\Html;
                             </button>
                         </li>
                         <li class="next list-inline-item float-end">
-                            <button type="button" class="btn btn-info"><i
-                                        class="mdi mdi-lightning-bolt-outline"></i> Predict</button>
+                            <button type="submit" class="btn btn-info"><i
+                                        class="mdi mdi-lightning-bolt-outline"></i> Predict
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -135,3 +153,5 @@ use yii\bootstrap5\Html;
 
     </div> <!-- end card-body -->
 </div> <!-- end card-->
+
+

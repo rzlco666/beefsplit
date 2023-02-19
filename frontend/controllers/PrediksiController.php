@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\components\SessionFlash;
 use Yii;
 use common\models\Prediksi;
 use common\models\search\PrediksiSearch;
@@ -40,6 +41,7 @@ class PrediksiController extends Controller
     {
         $searchModel = new PrediksiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 10;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -55,16 +57,18 @@ class PrediksiController extends Controller
      */
     public function actionView($id)
     {
+        $id = Yii::$app->encrypter->decrypt($id);
+        $model = $this->findModel($id);
         $request = Yii::$app->request;
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> 'Prediksi #'.$id,
+                    'title'=> 'Prediksi - '.$model->nama,
                     'content'=>$this->renderAjax('view', [
-                        'model' => $this->findModel($id),
+                        'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                        Html::a('Download',['download','file'=>Yii::$app->encrypter->encrypt($model->dataset_save_name)],['class'=>'btn btn-primary'])
                 ];
         }else{
             return $this->render('view', [
@@ -99,15 +103,27 @@ class PrediksiController extends Controller
                                 Html::button('Save',['class'=>'btn btn-primary','type'=>'submit'])*/
 
                 ];
-            }else if($model->load($request->post()) && $model->save()){
-                return [
-                    'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> 'Predict',
-                    'content'=>'<span class="text-success">'.'Create Prediksi success'.'</span>',
-                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+            }else if($model->load($request->post())){
+                $datasetname = $model->dataset_name;
+                $savename = $model->nama . '-' . $datasetname;
+                $model->dataset_save_name = $savename;
+                $model->date_created = date('Y-m-d H:i:s');
+                $model->id_user = Yii::$app->user->id;
 
-                ];
+                $tabel = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\tabel.py $datasetname";
+                $predict = shell_exec($tabel);
+                $simpan = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\savefile.py $datasetname $savename";
+                //$savefile = shell_exec($simpan);
+
+                $model->save();
+                SessionFlash::sessionSuccessCustom('Prediction Success');
+
+                return $this->render('result', [
+                    'model' => $model,
+                    'predict' => $predict,
+                    'datasetname' => $datasetname,
+                    'savename' => $savename,
+                ]);
             }else{
                 return [
                     'title'=> 'Predict',
@@ -123,8 +139,27 @@ class PrediksiController extends Controller
             /*
             *   Process for non-ajax request
             */
-            if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($request->post())) {
+                $datasetname = $model->dataset_name;
+                $savename = $model->nama . '-' . $datasetname;
+                $model->dataset_save_name = $savename;
+                $model->date_created = date('Y-m-d H:i:s');
+                $model->id_user = Yii::$app->user->id;
+
+                $tabel = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\tabel.py $datasetname";
+                $predict = shell_exec($tabel);
+                $simpan = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\savefile.py $datasetname $savename";
+                //$savefile = shell_exec($simpan);
+
+                $model->save();
+                SessionFlash::sessionSuccessCustom('Prediction Success');
+
+                return $this->render('result', [
+                    'model' => $model,
+                    'predict' => $predict,
+                    'datasetname' => $datasetname,
+                    'savename' => $savename,
+                ]);
             } else {
                 return $this->render('create', [
                     'model' => $model,
@@ -143,6 +178,7 @@ class PrediksiController extends Controller
      */
     public function actionUpdate($id)
     {
+        $id = Yii::$app->encrypter->decrypt($id);
         $request = Yii::$app->request;
         $model = $this->findModel($id);
 
@@ -153,7 +189,7 @@ class PrediksiController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> 'Update Prediksi #'.$id,
+                    'title'=> 'Update Prediksi - '.$model->nama,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -163,16 +199,16 @@ class PrediksiController extends Controller
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> 'Prediksi #'.$id,
+                    'title'=> 'Prediksi - '.$model->nama,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-bs-dismiss'=>'modal']).
-                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Download',['download','file'=>Yii::$app->encrypter->encrypt($model->dataset_save_name)],['class'=>'btn btn-primary'])
                 ];
             }else{
                  return [
-                    'title'=> 'Update Prediksi #'.$id,
+                    'title'=> 'Update Prediksi - '.$model->nama,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
@@ -185,12 +221,28 @@ class PrediksiController extends Controller
             *   Process for non-ajax request
             */
             if ($model->load($request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => Yii::$app->encrypter->encrypt($model->id)]);
             } else {
                 return $this->render('update', [
                     'model' => $model,
                 ]);
             }
+        }
+    }
+
+    /**
+     * Download an existing Prediksi model.
+     * For ajax request will return json object
+     * and for non-ajax request if download is successful, the browser will be redirected to the 'index' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDownload($file)
+    {
+        $file = Yii::$app->encrypter->decrypt($file);
+        $path = Yii::getAlias('@frontend') . '/web/klasifikasifile/' . $file;
+        if (file_exists($path)) {
+            return Yii::$app->response->sendFile($path);
         }
     }
 
@@ -203,23 +255,16 @@ class PrediksiController extends Controller
      */
     public function actionDelete($id)
     {
+        $id = Yii::$app->encrypter->decrypt($id);
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $old_file = $model->dataset_save_name;
 
-        if($request->isAjax){
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-        }else{
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
-        }
+        @unlink(Yii::getAlias('@frontend') . '/web/klasifikasifile/' . $old_file);
+        $model->delete();
 
-
+        SessionFlash::sessionSuccessDelete();
+        return $this->redirect(['index']);
     }
 
      /**
@@ -235,6 +280,8 @@ class PrediksiController extends Controller
         $pks = explode(',', $request->post( 'pks' )); // Array or selected records primary keys
         foreach ( $pks as $pk ) {
             $model = $this->findModel($pk);
+            $old_file = $model->dataset_save_name;
+            @unlink(Yii::getAlias('@frontend') . '/web/klasifikasifile/' . $old_file);
             $model->delete();
         }
 
