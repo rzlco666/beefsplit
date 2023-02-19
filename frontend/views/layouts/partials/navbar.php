@@ -50,14 +50,14 @@ use yii\helpers\Url;
 
             <li class="side-nav-title">Navigation</li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'site') echo 'menuitem-active'; ?>">
                 <a href="<?= Url::to(['/site/index']) ?>" class="side-nav-link">
                     <i class="uil-home-alt"></i>
                     <span> Dashboard </span>
                 </a>
             </li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'profile') echo 'menuitem-active'; ?>">
                 <a href="<?= Url::to(['/profile']) ?>" class="side-nav-link">
                     <i class="uil-user-circle"></i>
                     <span> Profile </span>
@@ -66,14 +66,14 @@ use yii\helpers\Url;
 
             <li class="side-nav-title">Apps</li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'dataset') echo 'menuitem-active'; ?>">
                 <a href="<?= Url::to(['/dataset']) ?>" class="side-nav-link">
                     <i class="uil-file-alt"></i>
                     <span> Dataset </span>
                 </a>
             </li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'prediksi') echo 'menuitem-active'; ?>">
                 <a href="<?= Url::to(['/prediksi']) ?>" class="side-nav-link">
                     <i class="uil-chart"></i>
                     <span> Predict </span>
@@ -82,7 +82,7 @@ use yii\helpers\Url;
 
             <li class="side-nav-title">Others</li>
 
-            <li class="side-nav-item">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'manual') echo 'menuitem-active'; ?>">
                 <a href="<?= Url::to(['/profile']) ?>" class="side-nav-link">
                     <i class="uil-book-alt"></i>
                     <span> Manual Book </span>
