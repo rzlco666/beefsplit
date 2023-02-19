@@ -33,7 +33,7 @@ $user = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
             <div class="card text-center">
                 <div class="card-body">
                     <?php if (!empty($user->foto) || $user->foto != null) : ?>
-                        <img src="<?= Url::home() ?>images/users/<?= $user->foto ?>" alt="user-image" width="32" class="rounded-circle avatar-lg img-thumbnail">
+                        <img src="<?= Url::home() ?>images/users/<?= $user->foto ?>" alt="user-image" width="96" class="rounded-circle avatar-lg img-thumbnail" style="width: 96px; height: 96px; object-fit: cover;">
                     <?php else : ?>
                     <center>
                         <div class="avatar avatar-lg rounded-circle img-thumbnail ce">

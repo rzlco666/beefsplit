@@ -6,7 +6,7 @@ use yii\helpers\Url;
 <div class="leftside-menu">
 
     <!-- Brand Logo Light -->
-    <a href="index.html" class="logo logo-light">
+    <a href="<?= Url::home() ?>" class="logo logo-light">
                     <span class="logo-lg">
                         <img src="<?= Url::home() ?>images/logo.png" alt="logo">
                     </span>

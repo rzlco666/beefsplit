@@ -361,7 +361,7 @@ $user = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                                 <span class="account-user-avatar">
                                     <?php if (!empty($user->foto) || $user->foto != null) : ?>
-                                        <img src="<?= Url::home() ?>images/users/<?= $user->foto ?>" alt="user-image" width="32" class="rounded-circle">
+                                        <img src="<?= Url::home() ?>images/users/<?= $user->foto ?>" alt="user-image" width="32" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover;">
                                     <?php else : ?>
                                         <div class="avatar avatar-xs">
                                                 <span class="avatar-title bg-success rounded-circle"><?= substr($user->nama, 0, 1) ?></span>
