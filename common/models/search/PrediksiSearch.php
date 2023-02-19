@@ -41,7 +41,7 @@ class PrediksiSearch extends Prediksi
      */
     public function search($params)
     {
-        $query = Prediksi::find();
+        $query = Prediksi::find()->where(['id_user' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
