@@ -42,6 +42,7 @@ class DatasetController extends Controller
     {
         $searchModel = new DatasetSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 10;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -123,7 +124,7 @@ class DatasetController extends Controller
                 ];
             } else if ($model->load($request->post())) {
                 $model->file = UploadedFile::getInstance($model, 'file');
-                $nama = Yii::$app->user->identity->id . ' - ' . $model->nama . ' - ' . $model->file->baseName;
+                $nama = Yii::$app->user->identity->id . '-' . $model->nama . '-' . $model->file->baseName;
                 $model->ekstensi = $model->file->extension;
                 $model->size = $model->file->size;
                 if ($model->validate()) {

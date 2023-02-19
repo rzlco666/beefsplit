@@ -54,13 +54,20 @@ $profile = Profile::find()->where(['id_user' => $model->id_user])->one();
     $reader = ReaderEntityFactory::createXLSXReader();
     $reader->open($path);
     # read each cell of each row of each sheet
+    $isFirstRow = true; // flag to detect the first row
     foreach ($reader->getSheetIterator() as $sheet) {
         foreach ($sheet->getRowIterator() as $row) {
             echo '<tr>';
             foreach ($row->getCells() as $cell) {
-                echo '<td>' . $cell->getValue() . '</td>';
+                if ($isFirstRow) {
+                    // add <b> tag to the cell value of the first row
+                    echo '<td><b>' . $cell->getValue() . '</b></td>';
+                } else {
+                    echo '<td>' . $cell->getValue() . '</td>';
+                }
             }
             echo '</tr>';
+            $isFirstRow = false; // update flag
         }
     }
     echo '</table>';
