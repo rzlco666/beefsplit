@@ -42,7 +42,7 @@ class DatasetSearch extends Dataset
      */
     public function search($params)
     {
-        $query = Dataset::find();
+        $query = Dataset::find()->where(['id_user' => Yii::$app->user->id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
