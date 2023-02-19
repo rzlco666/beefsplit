@@ -113,7 +113,7 @@ class PrediksiController extends Controller
                 $tabel = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\tabel.py $datasetname";
                 $predict = shell_exec($tabel);
                 $simpan = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\savefile.py $datasetname $savename";
-                //$savefile = shell_exec($simpan);
+                $savefile = shell_exec($simpan);
 
                 $model->save();
                 SessionFlash::sessionSuccessCustom('Prediction Success');
@@ -149,7 +149,7 @@ class PrediksiController extends Controller
                 $tabel = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\tabel.py $datasetname";
                 $predict = shell_exec($tabel);
                 $simpan = "python D:\\laragon\\www\\beefsplit\\frontend\\web\\engine\\savefile.py $datasetname $savename";
-                //$savefile = shell_exec($simpan);
+                $savefile = shell_exec($simpan);
 
                 $model->save();
                 SessionFlash::sessionSuccessCustom('Prediction Success');
