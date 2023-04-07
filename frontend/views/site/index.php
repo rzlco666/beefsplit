@@ -10,5 +10,5 @@ $this->title = 'Dashboard';
 <div class="page-header">
     <?= Breadcrumb::levelDua($this->title, 'General', Url::to(['/#'])) ?>
 </div>
-<hp>This is <?= $this->title?></hp>
+<hp>This is <?= $this->title?> BeefSplit</hp>
 <!-- End Row -->

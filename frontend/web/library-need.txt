@@ -1,0 +1,9 @@
+jupyter notebook
+pandas
+xlrd
+scikit-learn
+numpy
+seaborn
+matplotlib
+tabulate
+openpyxl
