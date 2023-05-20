@@ -82,8 +82,8 @@ use yii\helpers\Url;
 
             <li class="side-nav-title">Others</li>
 
-            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'manual') echo 'menuitem-active'; ?>">
-                <a href="<?= Url::to(['/profile']) ?>" class="side-nav-link">
+            <li class="side-nav-item <?php if (Yii::$app->controller->id == 'manual-book') echo 'menuitem-active'; ?>">
+                <a href="<?= Url::to(['/manual-book']) ?>" class="side-nav-link">
                     <i class="uil-book-alt"></i>
                     <span> Manual Book </span>
                 </a>
