@@ -30,12 +30,6 @@ use yii\helpers\ArrayHelper;
                         <span class="d-none d-sm-inline">Data Test</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#predict" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2">
-                        <i class="mdi mdi-lightning-bolt-outline font-18 align-middle me-1"></i>
-                        <span class="d-none d-sm-inline">Predict</span>
-                    </a>
-                </li>
             </ul>
 
             <div class="tab-content b-0 mb-0">
@@ -100,44 +94,10 @@ use yii\helpers\ArrayHelper;
 
                     <ul class="pager wizard mb-0 list-inline">
                         <li class="previous list-inline-item">
-                            <button type="button" class="btn btn-light"><i class="mdi mdi-arrow-left me-1"></i> Back to
+                            <a href="#mlmodel" data-bs-toggle="tab" data-toggle="tab" class="btn btn-light">
+                                <i class="mdi mdi-arrow-left me-1"></i> Back to
                                 ML Model
-                            </button>
-                        </li>
-                        <li class="next list-inline-item float-end">
-                            <button type="button" class="btn btn-info">Summary <i
-                                        class="mdi mdi-arrow-right ms-1"></i></button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="tab-pane" id="predict">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="text-center">
-                                <h2 class="mt-0"><i class="mdi mdi-check-all"></i></h2>
-                                <h3 class="mt-0">Thank you !</h3>
-
-                                <p class="w-75 mb-2 mx-auto">Quisque nec turpis at urna dictum luctus. Suspendisse
-                                    convallis dignissim eros at volutpat. In egestas mattis dui. Aliquam
-                                    mattis dictum aliquet.</p>
-
-                                <div class="mb-3">
-                                    <div class="form-check d-inline-block">
-                                        <input type="checkbox" class="form-check-input" id="customCheck1">
-                                        <label class="form-check-label" for="customCheck1">I agree with the Terms and
-                                            Conditions</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- end col -->
-                    </div> <!-- end row -->
-
-                    <ul class="pager wizard mb-0 list-inline mt-1">
-                        <li class="previous list-inline-item">
-                            <button type="button" class="btn btn-light"><i class="mdi mdi-arrow-left me-1"></i> Back to
-                                Data Test
-                            </button>
+                            </a>
                         </li>
                         <li class="next list-inline-item float-end">
                             <button type="submit" class="btn btn-info"><i
