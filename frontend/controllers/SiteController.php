@@ -3,11 +3,15 @@
 namespace frontend\controllers;
 
 use common\components\SessionFlash;
+use common\models\Dataset;
+use common\models\Prediksi;
 use common\models\Profile;
+use common\models\User;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\db\Query;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -81,7 +85,18 @@ class SiteController extends Controller
             $this->layout = 'landing';
             return $this->render('landing');
         } else {
-            return $this->render('index');
+            $count_user = User::find()->count();
+            $count_predict = Prediksi::find()->count();
+            $count_dataset = Dataset::find()->count();
+
+            $prediksi = Yii::$app->db->createCommand("SELECT IFNULL(COUNT(id), 0) jumlah_prediksi, DATE_FORMAT(date_created,'%M %Y') as bulan FROM prediksi GROUP BY DATE_FORMAT(date_created,'%M %Y') ORDER BY DATE_FORMAT(date_created,'%M %Y')")->queryAll();
+
+            return $this->render('index', [
+                'count_user' => $count_user,
+                'count_predict' => $count_predict,
+                'count_dataset' => $count_dataset,
+                'grafik_prediksi' => $prediksi,
+            ]);
         }
     }
 
